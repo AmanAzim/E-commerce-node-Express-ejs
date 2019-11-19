@@ -1,21 +1,10 @@
 const express = require('express');
-const path = require('path');
-const routes = express.Router();//makes the middleware exportable
+const router = express.Router();//makes the middleware exportable
 
+const productsController = require('../controllers/products');
 
-const products = [];
+router.get('/add-product', productsController.getAddProducts);
 
-routes.get('/add-product', (req, res, next) => {
-    res.render('add-product', {
-        docTitle: 'Add products',
-        path: '/add-product'
-    });
-});
+router.post('/add-product', productsController.postAddProducts);
 
-routes.post('/add-product', (req, res, next) => {
-    products.push({ title: req.body.title });
-    res.redirect('/');
-});
-
-exports.routes = routes;
-exports.products = products;
+module.exports = router;
