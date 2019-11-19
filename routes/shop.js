@@ -9,6 +9,8 @@ router.get('/', shopController.getIndex);
 
 router.get('/products-list', shopController.getDisplayProducts);
 
+router.get('/details/:productId', shopController.getProductDetail);// We have to put route with dynamic segment after any route with same path structure
+
 router.post('/add-to-cart', shopController.postAddToCart);
 
 router.get('/cart', shopController.getCart);

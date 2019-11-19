@@ -28,9 +28,10 @@ module.exports = class Product {
     }
 
     save() {
-        //products.push(this);// This refers to the individual object created using the constructor function.
+        this.id = Math.random().toString();
+
         getProductsFromFile((products) => {
-            products.push(this);
+            products.push(this); // This refers to the individual object created using the constructor function.
             fs.writeFile(filePath, JSON.stringify(products), (err) => {
                 console.log(err);
             });

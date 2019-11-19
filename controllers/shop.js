@@ -10,6 +10,12 @@ exports.getDisplayProducts = (req, res, next) => {
     });
 };
 
+exports.getProductDetail = (req, res, next) => {
+    const productId = req.params.productId; //Same name we have to extract that we have assigned in the route/shop => /products/:productId
+    console.log(productId);
+    res.redirect('/');
+};
+
 exports.getIndex = (req, res, next) => {
     Product.fetchAll((products) => { //so that we only try to show products after it has been read from the storage anynchronously
         res.render('shop/index', {
