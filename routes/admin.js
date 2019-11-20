@@ -7,9 +7,11 @@ router.get('/add-product', adminController.getAddProducts);
 
 router.post('/add-product', adminController.postAddProducts);
 
-router.get('/admin-products-list', adminController.getAdminProductsList);
+router.get('/products-list', adminController.getAdminProductsList);
 
-router.get('/edit-product', adminController.getEditProducts);
+router.get('/edit-product/:productId', adminController.getEditProducts); //Only in get request we can send params
+
+router.post('/edit-product', adminController.postEditProduct);
 
 router.post('/delete-product', adminController.postDeleteProduct);
 

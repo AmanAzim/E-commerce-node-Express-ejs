@@ -21,9 +21,7 @@
                         </div>
                         <div class="card__actions">
                             <a class="btn" href="/details/<%= product.id %>">Details</a>
-                            <form action="/add-to-cart" method="post">
-                                <button class="btn">Add to Cart</button>
-                            </form>
+                            <%- include('../layouts/add-to-cart', {product: product}) %> <!--Because "product" is a local variable of the for loop so we need to pass it to the include in this way-->
                         </div>
                     </article>
                 <% } %>

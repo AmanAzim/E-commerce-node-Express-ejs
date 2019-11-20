@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const Cart = require('./cart');
 
 const filePath = path.join(
     path.dirname(process.mainModule.filename), //In the root directory
@@ -20,7 +21,8 @@ const getProductsFromFile = callback => {
 
 module.exports = class Product {
 
-    constructor(title, imgUrl, price, description) {
+    constructor(id, title, imgUrl, price, description) {
+        this.id = id;
         this.title = title;
         this.imgUrl = imgUrl;
         this.price = price;
@@ -28,17 +30,53 @@ module.exports = class Product {
     }
 
     save() {
-        this.id = Math.random().toString();
-
         getProductsFromFile((products) => {
-            products.push(this); // This refers to the individual object created using the constructor function.
-            fs.writeFile(filePath, JSON.stringify(products), (err) => {
-                console.log(err);
-            });
+            if ( this.id ) {
+
+                const existingProductIndex = products.findIndex( product => product.id === this.id );
+                const updatedProduct = [...products];
+                updatedProduct[existingProductIndex] = this;// the updated product
+                fs.writeFile(filePath, JSON.stringify(updatedProduct), (err) => {
+                    console.log(err);
+                });
+
+            } else {
+
+                 this.id = Math.random().toString();
+                 products.push(this); // This refers to the individual object created using the constructor function.
+                 fs.writeFile(filePath, JSON.stringify(products), (err) => {
+                    console.log(err);
+                 });
+            }
+
         });
     }
 
     static fetchAll(callback) { //Static method can only be called directly using class name and not using class instance
         getProductsFromFile(callback);
+    }
+
+    static findById(id, callback) {
+        getProductsFromFile((products) => {
+            const selectedProduct = products.find( product => product.id === id );
+            callback(selectedProduct);
+        });
+    }
+
+    static deleteById(id) {
+        getProductsFromFile((products) => {
+            const productToDelete = products.find( product => product.id === id );
+            const updatedProducts = products.filter( product => product.id !== id );
+
+            fs.writeFile(filePath, JSON.stringify(updatedProducts), (err) => {
+
+               if ( !err ) {
+                  Cart.deleteProductFromCart(id, productToDelete.price);
+               } else {
+                   console.log(err);
+               }
+
+            });
+        });
     }
 };

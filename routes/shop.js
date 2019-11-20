@@ -13,7 +13,11 @@ router.get('/details/:productId', shopController.getProductDetail);// We have to
 
 router.post('/add-to-cart', shopController.postAddToCart);
 
+router.post('/cart', shopController.postCart);
+
 router.get('/cart', shopController.getCart);
+
+router.post('/cart-delete-item', shopController.postDeleteCartItem);
 
 router.get('/orders', shopController.getOrders);
 
